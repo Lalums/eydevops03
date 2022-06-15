@@ -1,0 +1,39 @@
+
+###### 1.  Creating Policy Definition  - Azure Powershell Method ###########
+$subscriptionId = "80f74f53-d530-425b-aad2-0df0a84a760a"
+Set-AzContext -SubscriptionId $subscriptionId
+
+$definition = New-AzPolicyDefinition -Name 'Set TLS 1_2 on storage account_new' `
+    -SubscriptionId $SubscriptionId `
+    -DisplayName 'Set TLS 1_2 on storage account_new' `
+	-description "TLS 1_2" `
+    -Policy 'Set TLS 1_2 on storage account_2.json' `
+	-Mode All
+	
+###### 2.  Assigning Policy Definition  - Azure Powershell Method  ###########
+
+$subscriptionId = "80f74f53-d530-425b-aad2-0df0a84a760a"
+Set-AzContext -SubscriptionId $subscriptionId
+
+$rg = Get-AzResourceGroup -Name 'ratheesh'
+
+$definition = Get-AzPolicyDefinition | Where-Object { $_.Properties.DisplayName -eq 'Set TLS 1_2 on storage account_new' }
+New-AzPolicyAssignment -Name 'Set TLS 1_2' -DisplayName 'Set TLS 1_2 on storage account_new' -Scope $rg.ResourceId -PolicyDefinition $definition
+
+
+######################################################################################
+
+
+$policyId = "/subscriptions/272da51d-7edc-4a99-8e7b-1e99739d6e7c/providers/Microsoft.Authorization/policyDefinitions/Set TLS 1_2 on storage account_new"
+
+$s = Get-Content "Set TLS 1_2 on storage account_2.json" -Raw|ConvertFrom-Json
+$s.properties.policyDefinitionId=$policyId
+$s|ConvertTo-Json |Set-Content "namingConvention.json"
+
+
+
+
+
+https://teams.microsoft.com/_#/l/meetup-join/19:meeting_NjgzZDI1NmQtYmRlYi00NTlhLThmOGQtMjVhNzFmOTM4YzAy@thread.v2/0?context=%7b%22Tid%22%3a%2259744b1f-0945-4a40-984c-c30b382e5dec%22%2c%22Oid%22%3a%228460e90f-dba8-4100-b245-68014a176162%22%7d&anon=true&deeplinkId=49da71f7-22f2-4e8b-b387-3d448ff35d69
+https://nam10.safelinks.protection.outlook.com/ap/t-59584e83/?url=https%3A%2F%2Fteams.microsoft.com%2Fl%2Fmeetup-join%2F19%253ameeting_NzZjZmM1NWYtNWM1Ni00YTZkLWE3YjYtODA4MTNmNGM4NDg0%2540thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%252259744b1f-0945-4a40-984c-c30b382e5dec%2522%252c%2522Oid%2522%253a%25228460e90f-dba8-4100-b245-68014a176162%2522%257d&data=05%7C01%7Crkumar%40tmhcc.com%7Cbeef0874ebc2436811df08da4a2f2383%7C59744b1f09454a40984cc30b382e5dec%7C0%7C0%7C637903863561346346%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=tA2MzPd7WaHg0i5vrsu2R3PTsqwYYZ2699axB9bkwrI%3D&reserved=0
+
